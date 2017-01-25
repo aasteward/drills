@@ -8,12 +8,74 @@ searned = 0.0
 savspend = 0.0
 savearned = 0.0
 
+sallowout = []
+sallowin = []
+srepairout = []
+srepairin = []
+srentout = []
+srentin = []
+sfunout = []
+sfunin = []
+sfuelout = []
+sfuelin = []
+sgrocerout = []
+sgrocerin = []
+smealout = []
+smealin = []
+sclothesout = []
+sclothesin = []
+seducateout = []
+seducatein = []
+sdonateout = []
+sdonatein = []
+sutilityout = []
+sutilityin = []
+sgiftout = []
+sgiftin = []
+shouseout = []
+shousein = []
+sgymout = []
+sgymin = []
+smedicalout = []
+smedicalin = []
+
 pspending = []
 pearning = []
 pspent = 0.0
 pearned = 0.0
 pavspend = 0.0
 pavearned = 0.0
+
+pallowout = []
+pallowin = []
+prepairout = []
+prepairin = []
+prentout = []
+prentin = []
+pfunout = []
+pfunin = []
+pfuelout = []
+pfuelin = []
+pgrocerout = []
+pgrocerin = []
+pmealout = []
+pmealin = []
+pclothesout = []
+pclothesin = []
+peducateout = []
+peducatein = []
+pdonateout = []
+pdonatein = []
+putilityout = []
+putilityin = []
+pgiftout = []
+pgiftin = []
+phouseout = []
+phousein = []
+pgymout = []
+pgymin = []
+pmedicalout = []
+pmedicalin = []
 
 CSV.foreach("accounts.csv", {headers: true, return_headers: false}) do |row|
 
@@ -30,166 +92,155 @@ CSV.foreach("accounts.csv", {headers: true, return_headers: false}) do |row|
 
 	if (row["Category"].include? "Car Repairs")
 		if (row["Account"].include? "Sonia")
-    		sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+    		srepairout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		srepairin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
 		end
 		if (row["Account"].include? "Priya")
-			pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+			prepairout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		prepairin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
     	end
 	end
 
 	if (row["Category"].include? "Rent")
 		if (row["Account"].include? "Sonia")
-    		sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+    		srentout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		srentin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
 		end
 		if (row["Account"].include? "Priya")
-			pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+			prentout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		prentin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
     	end
 	end
 
 	if (row["Category"].include? "Entertainment")
 		if (row["Account"].include? "Sonia")
-    		sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+    		sfunout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		sfunin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
 		end
 		if (row["Account"].include? "Priya")
-			pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+			pfunout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		pfunin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
     	end
 	end
 
 	if (row["Category"].include? "Fuel")
 		if (row["Account"].include? "Sonia")
-    		sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+    		sfuelout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		sfuelin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
 		end
 		if (row["Account"].include? "Priya")
-			pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+			pfuelout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		pfuelin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
     	end
 	end
 
 	if (row["Category"].include? "Groceries")
 		if (row["Account"].include? "Sonia")
-    		sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+    		sgrocerout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		sgrocerin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
 		end
 		if (row["Account"].include? "Priya")
-			pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+			pgrocerout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		pgrocerin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
     	end
 	end
 
 	if (row["Category"].include? "Meals")
 		if (row["Account"].include? "Sonia")
-    		sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+    		smealout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		smealin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
 		end
 		if (row["Account"].include? "Priya")
-			pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+			pmealout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		pmealin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
     	end
 	end
 
 	if (row["Category"].include? "Clothes")
 		if (row["Account"].include? "Sonia")
-    		sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+    		sclothesout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		sclothesin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
 		end
 		if (row["Account"].include? "Priya")
-			pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+			pclothesout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		pclothesin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
     	end
 	end
 
 	if (row["Category"].include? "Education")
 		if (row["Account"].include? "Sonia")
-    		sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+    		seducateout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		seducatein.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
 		end
 		if (row["Account"].include? "Priya")
-			pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+			peducateout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		peducatein.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
     	end
 	end
 
 	if (row["Category"].include? "Donations")
 		if (row["Account"].include? "Sonia")
-    		sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+    		sdonateout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		sdonatein.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
 		end
 		if (row["Account"].include? "Priya")
-			pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+			pdonateout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		pdonatein.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
     	end
 	end
 
 	if (row["Category"].include? "Utilities")
 		if (row["Account"].include? "Sonia")
-    		sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+    		sutilityout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		sutilityin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
 		end
 		if (row["Account"].include? "Priya")
-			pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+			putilityout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		putilityin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
     	end
 	end
 
 	if (row["Category"].include? "Gifts")
 		if (row["Account"].include? "Sonia")
-    		sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+    		sgiftout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		sgiftin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
 		end
 		if (row["Account"].include? "Priya")
-			pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+			pgiftout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		pgiftin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
     	end
 	end
 
 	if (row["Category"].include? "Household Goods")
 		if (row["Account"].include? "Sonia")
-    		sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+    		shouseout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		shousein.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
 		end
 		if (row["Account"].include? "Priya")
-			pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
-    	end
-	end
-
-	if (row["Category"].include? "Groceries")
-		if (row["Account"].include? "Sonia")
-    		sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
-		end
-		if (row["Account"].include? "Priya")
-			pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+			phouseout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		phousein.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
     	end
 	end
 
 	if (row["Category"].include? "Gym")
 		if (row["Account"].include? "Sonia")
-    		sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+    		sgymout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		sgymin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
 		end
 		if (row["Account"].include? "Priya")
-			pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+			pgymout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		pgymin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
     	end
 	end
 
 	if (row["Category"].include? "Medical/Dental")
 		if (row["Account"].include? "Sonia")
-    		sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+    		smedicalout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		smedicalin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
 		end
 		if (row["Account"].include? "Priya")
-			pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    		pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+			pmedicalout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    		pmedicalin.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
     	end
 	end
 
