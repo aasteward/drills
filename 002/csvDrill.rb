@@ -1,34 +1,69 @@
 require 'csv'
 require 'pry'
 
-spending = []
-earning = []
-spent = 0.0
-earned = 0.0
-avspend = 0.0
-avearned = 0.0
+sspending = []
+searning = []
+sspent = 0.0
+searned = 0.0
+savspend = 0.0
+savearned = 0.0
+
+pspending = []
+pearning = []
+pspent = 0.0
+pearned = 0.0
+pavspend = 0.0
+pavearned = 0.0
 
 CSV.foreach("accounts.csv", {headers: true, return_headers: false}) do |row|
-    spending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
-    earning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+
+	if (row["Account"].include? "Sonia")
+    	sspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    	searning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+	end
+	if (row["Account"].include? "Priya")
+		pspending.push(row["Outflow"].split("$").last().sub(/,/, '').to_f)
+    	pearning.push(row["Inflow"].split("$").last().sub(/,/, '').to_f)
+    end
+
 #    binding.pry
 
 end
 
-spending -= [0.0]
-puts spending
+sspending -= [0.0]
+#puts sspending
 
-spending.each { |s| spent += s}
-puts spent
+sspending.each { |s| sspent += s}
+puts "Sonia spent total #{sspent}"
 
-avspent = spent / spending.length
+savspent = sspent / sspending.length
 
-puts avspent
+puts "Sonia spent average #{savspent}"
 
-puts earning
+searning -= [0.0]
+#puts searning
 
-earning.each { |e| earned += e}
-puts earned
+searning.each { |e| searned += e}
+puts "Sonia earned total #{searned}"
 
+savearned = searned / searning.length
+puts "Sonia earned average #{savearned}"
 
+pspending -= [0.0]
+#puts pspending
 
+pspending.each { |s| pspent += s}
+puts "Priya spent total #{pspent}"
+
+pavspent = pspent / pspending.length
+
+puts "Priya spent average #{pavspent}"
+
+pearning -= [0.0]
+#puts pearning
+
+pearning.each { |e| pearned += e}
+puts "Priya earned total #{pearned}"
+
+pavearned = pearned / pearning.length
+puts "Priya earned average #{pavearned}"
