@@ -79,6 +79,8 @@ pmedicalin = []
 
 CSV.foreach("accounts.csv", {headers: true, return_headers: false}) do |row|
 
+	# POPULATES ARRAYS WITH TRANSACTIONS FOR EACH CATEGORY FOR EACH ACCOUNT
+
 	if (row["Category"].include? "Allowance")
 		if (row["Account"].include? "Sonia")
     		sallowout.push(row["Outflow"].split("$").last().sub(/,/, '').to_f) if row["Outflow"].split("$").last().sub(/,/, '').to_f != 0.0
@@ -246,11 +248,7 @@ CSV.foreach("accounts.csv", {headers: true, return_headers: false}) do |row|
 
 end
 
-# sspending -= [0.0]
-# #puts sspending
-
-# sspending.each { |s| sspent += s}
-# puts "Sonia spent total #{sspent}"
+# CALCULATES SONIA'S TRANSACTION TOTALS FOR EACH CATEGORY
 
 sallowtot = 0.0
 sallowin.each { |t| sallowtot += t }
@@ -309,11 +307,10 @@ sgymout.each { |t| sgymtot -= t }
 sgymin.each { |t| sgymtot += t }
 
 smedicaltot = 0.0
-smedicalout.each { |t| smedical -= t }
-smedicalin.each { |t| smedical += t }
+smedicalout.each { |t| smedicaltot -= t }
+smedicalin.each { |t| smedicaltot += t }
 
-
-
+# CALCULATES PRIYA'S TRANSACTION TOTALS FOR EACH CATEGORY
 
 pallowtot = 0.0
 pallowin.each { |t| pallowtot += t }
@@ -323,7 +320,7 @@ prepairtot = 0.0
 prepairout.each { |t| prepairtot -= t }
 prepairin.each { |t| prepairtot += t }
 
-srenttot = 0.0
+prenttot = 0.0
 prentout.each { |t| prenttot -= t }
 prentin.each { |t| prenttot += t }
 
@@ -376,6 +373,11 @@ pmedicalout.each { |t| pmedical -= t }
 pmedicalin.each { |t| pmedical += t }
 
 # savspent = sspent / sspending.length
+savallow = sallowtot / ( sallowin.length + sallowout.length )
+puts savallow
+
+pavallow = pallowtot / ( pallowin.length + pallowout.length )
+puts pavallow
 
 # puts "Sonia spent average #{savspent}"
 
