@@ -39,6 +39,8 @@ current_account[:total] += amount
 
 end
 
+# BUILDS ARRAY TO SORT BY ACCOUNT NAME
+
 accounts.each { |key, value| holder.push(key.to_s) }
 
 # CREATES ASCII DISPLAY
@@ -48,42 +50,42 @@ if holder.include?(ARGV[0].to_s)
 end
 
 if ARGV[1].to_s == '' or ARGV[1] == "ascii"
-accounts.each do |name, balance|
-	puts "\n"
-	puts "==============================================================="
-	puts "  #{name}: 		Balance: \$#{balance[:total].round(2)}"
-	puts "==============================================================="
-	puts "| Category 		| Amount 	| Average Transaction |"
-	puts "| --------------------- | ------------- | ------------------- |"
-	balance[:category].each do |category, t|
-    	print "| #{category.ljust(21)} | \$#{t[:tally].round(2).to_s.ljust(12)} | \$#{t[:avg_transaction].round(2).to_s.ljust(18)} |\n"
+	accounts.each do |name, balance|
+		puts "\n"
+		puts "==============================================================="
+		puts "  #{name}: 		Balance: \$#{balance[:total].round(2)}"
+		puts "==============================================================="
+		puts "| Category 		| Amount 	| Average Transaction |"
+		puts "| --------------------- | ------------- | ------------------- |"
+		balance[:category].each do |category, t|
+    		print "| #{category.ljust(21)} | \$#{t[:tally].round(2).to_s.ljust(12)} | \$#{t[:avg_transaction].round(2).to_s.ljust(18)} |\n"
+		end
+		puts "\n"
 	end
-	puts "\n"
-end
 end
 
 # CREATES HTML DISPLAY
 
 if ARGV[1].to_s == "html"
-accounts.each do |name, balance|
-	puts "\n"
-	puts "<h1>#{name}</h1>"
-	puts "<p>\$#{balance[:total].round(2)}</p>"
-	puts "<hr>"
-	puts "<table>"
-	puts "	<tr>"
-	puts "		<th>Category</th>"
-	puts "		<th>Amount</th>"
-	puts "		<th>Average Transaction</th>"
-	puts "	</tr>"
-	balance[:category].each do |category, t|
+	accounts.each do |name, balance|
+		puts "\n"
+		puts "<h1>#{name}</h1>"
+		puts "<p>\$#{balance[:total].round(2)}</p>"
+		puts "<hr>"
+		puts "<table>"
 		puts "	<tr>"
-		puts "		<td>#{category}</td>"
-		puts "		<td>\$#{t[:tally].round(2).to_s}</td>"
-		puts "		<td>\$#{t[:avg_transaction].round(2).to_s}</td>"
+		puts "		<th>Category</th>"
+		puts "		<th>Amount</th>"
+		puts "		<th>Average Transaction</th>"
+		puts "	</tr>"
+		balance[:category].each do |category, t|
+			puts "	<tr>"
+			puts "		<td>#{category}</td>"
+			puts "		<td>\$#{t[:tally].round(2).to_s}</td>"
+			puts "		<td>\$#{t[:avg_transaction].round(2).to_s}</td>"
+		end
+		puts "\n"
 	end
-	puts "\n"
-end
 end
 
 # CREATES CSV DISPLAY

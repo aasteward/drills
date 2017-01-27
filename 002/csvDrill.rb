@@ -1,109 +1,106 @@
-require 'csv'
+require 'CSV'
 require 'pry'
 
-#FUNCTION TO FIND ACCOUNT NAMES
+accounts = {}
+holder = []
 
-def findNames(csvFile)
-	x = []
+CSV.foreach("accounts.csv", {headers: true, return_headers: false}) do |row|
+    account = row["Account"].chomp
 
-	CSV.foreach(csvFile, {headers: true, return_headers: false}) do |row|
-		x.push(row["Account"].strip)
-	end
-	return x.uniq
-end
+# CREATES AND TRACKS NEW ACCOUNTS
 
-#FUNCTION TO PULL ALL CATEGORIES FROM FILE
-
-def findCats(csvFile)
-	x = []
-
-	CSV.foreach(csvFile, {headers: true, return_headers: false}) do |row|
-    	x.push(row["Category"].strip)
+    if !accounts[account]
+    	accounts[account] = { :total => 0.0, :category => {}}
     end
- return x.uniq
-end
 
-#FUNCTION THAT FINDS ALL IN/OUTFLOW OF GIVEN PARAMETERS
+    current_account = accounts[account]
 
-def toatlAndAverageCalc(category, person)
+    current_category = row["Category"].chomp
 
-	totIn = []
-	totOut = []
+# CREATES ENTRIES FOR TYPES OF TRANSACTIONS
 
-	CSV.foreach("accounts.csv", {headers: true, return_headers: false}) do |row|
-		if row["Category"].include? category
-			if row["Account"].include? person
-				totIn.push(row["Inflow"].gsub(/[,\$]/, "").to_f) if row["Inflow"].gsub(/[,\$]/, "").to_f != 0.0
-				totOut.push(row["Outflow"].gsub(/[,\$]/, "").to_f) if row["Outflow"].gsub(/[,\$]/, "").to_f != 0.0
-			end
-		end
-	end
+    if !accounts[account][:category][current_category]
+    	accounts[account][:category][current_category] = { :tally => 0.0, :num_of_transactions => 0, :avg_transaction => 0.0 }
+    end
 
-	numOfTransactions = totIn.length + totOut.length
-	total = 0.0
-	average = 0.0
+# CALCULATES TRANSACTION AMOUNTS AND AVERAGES
 
-	totIn.each { |i| total += i }
-	totOut.each{ |i| total -= i }
+inflow = row["Inflow"].gsub(/[,\$]/, '').to_f.round(2)
+outflow = row["Outflow"].gsub(/[,\$]/, '').to_f.round(2)
+amount = inflow - outflow
 
-	if numOfTransactions == 0
-		average = "No occurance"
-	else
-		average = (total/numOfTransactions).round(2) 
-	end
+current_account[:category][current_category][:tally] += amount
+current_account[:category][current_category][:num_of_transactions] += 1
+current_account[:category][current_category][:avg_transaction] = current_account[:category][current_category][:tally] / current_account[:category][current_category][:num_of_transactions]
 
-	return person, category, total.round(2), average
-end
+# CALCULATES ACCOUNT BALANCE
 
-#BEGINING OF CODE EXECUTION
-
-names = findNames('accounts.csv')
-categories = findCats('accounts.csv')
-
-priyaarr = []
-soniaarr = []
-
-names.each do |n|
-	categories.each do |c|
-		priyaarr.push(toatlAndAverageCalc(c,n)) if n == "Priya"
-		soniaarr.push(toatlAndAverageCalc(c,n)) if n == "Sonia" 
-	end
-end
-
-data = [soniaarr, priyaarr]
-
-
-
-
-names.each do |n|
-	if (n.to_s.include? "Sonia")
-		b = soniaarr.each do |t|
-			t += sr[2]
-		end
-
-	end
-	if (n.to_s.include? "Priya")
-		b = priyaarr.each do |t|
-			t += pr[2]
-		end
-		
-	end
-	puts "================================================================================"
-	puts "#{n}... 		Balance: #{b}"
-	puts "================================================================================"
-	puts "Category                    | Total spent | Average per transaction"
-	puts "----------------------------|-------------|-------------------------------------"
-	if n.to_s.include? "Sonia"
-		soniaarr.each do |sr|
-			print "#{sr[1].ljust(29)}" + "#{sr[2].to_s.ljust(14)}" + "#{sr[3].to_s.ljust(37)}" + "\n" unless sr.include? "No occurance"
-		end
-	end
-	if n.to_s.include? "Priya"
-		priyaarr.each do |pr|
-			print "#{pr[1].ljust(29)}" + "#{pr[2].to_s.ljust(14)}" + "#{pr[3].to_s.ljust(37)}" + "\n" unless pr.include? "No occurance"
-		end
-	end
-	puts "\n\n"
+current_account[:total] += amount
 
 end
+
+# BUILDS ARRAY TO SORT BY ACCOUNT NAME
+
+accounts.each { |key, value| holder.push(key.to_s) }
+
+# FILTERS ACCOUNTS TO BE DISPLAYED
+
+if holder.include?(ARGV[0].to_s)
+	accounts.delete_if { |key, value| key != ARGV[0].to_s }
+end
+
+# CREATES ASCII DISPLAY
+
+if ARGV[1].to_s == '' and ARGV[0] != "html" and ARGV[0] != "csv" or ARGV[1] == "ascii"
+	accounts.each do |name, balance|
+		puts "\n"
+		puts "==============================================================="
+		puts "  #{name}: 		Balance: \$#{balance[:total].round(2)}"
+		puts "==============================================================="
+		puts "| Category 		| Amount 	| Average Transaction |"
+		puts "| --------------------- | ------------- | ------------------- |"
+		balance[:category].each do |category, t|
+    		print "| #{category.ljust(21)} | \$#{t[:tally].round(2).to_s.ljust(12)} | \$#{t[:avg_transaction].round(2).to_s.ljust(18)} |\n"
+		end
+		puts "\n"
+	end
+end
+
+# CREATES HTML DISPLAY
+
+if ARGV[0] == "html" or ARGV[1].to_s == "html"
+	accounts.each do |name, balance|
+		puts "\n"
+		puts "<h1>#{name}</h1>"
+		puts "<p>\$#{balance[:total].round(2)}</p>"
+		puts "<hr>"
+		puts "<table>"
+		puts "	<tr>"
+		puts "		<th>Category</th>"
+		puts "		<th>Amount</th>"
+		puts "		<th>Average Transaction</th>"
+		puts "	</tr>"
+		balance[:category].each do |category, t|
+			puts "	<tr>"
+			puts "		<td>#{category}</td>"
+			puts "		<td>\$#{t[:tally].round(2).to_s}</td>"
+			puts "		<td>\$#{t[:avg_transaction].round(2).to_s}</td>"
+		end
+		puts "\n"
+	end
+end
+
+# CREATES CSV DISPLAY
+
+if ARGV[0] == "csv" or ARGV[1].to_s == "csv"
+	accounts.each do |name, balance|
+		puts "\n"
+		puts "Category,Amount,Averge Transaction"
+		balance[:category].each do |category, t|
+			puts "#{category},\$#{t[:tally].round(2).to_s},\$#{t[:avg_transaction].round(2).to_s}"
+		end
+		puts "\n"
+	end
+end
+
 
