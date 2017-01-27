@@ -2,12 +2,11 @@ require 'CSV'
 require 'pry'
 
 accounts = {}
-#Priya = {total => 0.0, {}}
-#Sonia = {total => 0.0, {}}
-#category = {}
 
 CSV.foreach("accounts.csv", {headers: true, return_headers: false}) do |row|
     account = row["Account"].chomp
+
+# CREATES AND TRACKS NEW ACCOUNTS
 
     if !accounts[account]
     	accounts[account] = { :total => 0.0, :category => {}}
@@ -17,15 +16,16 @@ CSV.foreach("accounts.csv", {headers: true, return_headers: false}) do |row|
 
     current_category = row["Category"].chomp
 
+# CREATES ENTRIES FOR TYPES OF TRANSACTIONS
+
     if !accounts[account][:category][current_category]
     	accounts[account][:category][current_category] = { :tally => 0.0, :num_of_transactions => 0, :avg_transaction => 0.0 }
-#    	binding.pry
     end
 
+# CALCULATES TRANSACTION AMOUNTS
+
 inflow = row["Inflow"].gsub(/[,\$]/, '').to_f.round(2)
-
 outflow = row["Outflow"].gsub(/[,\$]/, '').to_f.round(2)
-
 amount = inflow - outflow
 
 current_account[:category][current_category][:tally] += amount
@@ -34,12 +34,22 @@ current_account[:category][current_category][:avg_transaction] = current_account
 
 current_account[:total] += amount
 
-binding.pry
+end
 
+# CREATES DISPLAY
+
+accounts.each do |name, balance|
+	puts "==============================================================="
+	puts "#{name}: 		Balance: $#{balance[:total].round(2)}"
+	puts "==============================================================="
+	puts "| Category 		| Amount 	| Average Transaction |"
+	puts "| --------------------- | ------------- | ------------------- |"
+	balance[:category].each do |category, t|
+    	print "| #{category.ljust(21)} | \$#{t[:tally].round(2).to_s.ljust(12)} | \$#{t[:avg_transaction].round(2).to_s.ljust(18)} |\n"
+	end
 
 end
 
-#binding.pry
 
 puts "Done"
 
