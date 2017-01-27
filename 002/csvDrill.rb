@@ -2,7 +2,7 @@ require 'CSV'
 require 'pry'
 
 accounts = {}
-holder = []
+filter = ARGV
 
 CSV.foreach("accounts.csv", {headers: true, return_headers: false}) do |row|
     account = row["Account"].chomp
@@ -25,33 +25,34 @@ CSV.foreach("accounts.csv", {headers: true, return_headers: false}) do |row|
 
 # CALCULATES TRANSACTION AMOUNTS AND AVERAGES
 
-inflow = row["Inflow"].gsub(/[,\$]/, '').to_f.round(2)
-outflow = row["Outflow"].gsub(/[,\$]/, '').to_f.round(2)
-amount = inflow - outflow
+	inflow = row["Inflow"].gsub(/[,\$]/, '').to_f.round(2)
+	outflow = row["Outflow"].gsub(/[,\$]/, '').to_f.round(2)
+	amount = inflow - outflow
 
-current_account[:category][current_category][:tally] += amount
-current_account[:category][current_category][:num_of_transactions] += 1
-current_account[:category][current_category][:avg_transaction] = current_account[:category][current_category][:tally] / current_account[:category][current_category][:num_of_transactions]
+	current_account[:category][current_category][:tally] += amount
+	current_account[:category][current_category][:num_of_transactions] += 1
+	current_account[:category][current_category][:avg_transaction] = current_account[:category][current_category][:tally] / current_account[:category][current_category][:num_of_transactions]
 
-# CALCULATES ACCOUNT BALANCE
+	# CALCULATES ACCOUNT BALANCE
 
-current_account[:total] += amount
+	current_account[:total] += amount
 
 end
 
 # BUILDS ARRAY TO SORT BY ACCOUNT NAME
 
-accounts.each { |key, value| holder.push(key.to_s) }
+holder = accounts.keys
 
 # FILTERS ACCOUNTS TO BE DISPLAYED
 
-if holder.include?(ARGV[0].to_s)
-	accounts.delete_if { |key, value| key != ARGV[0].to_s }
+if holder.include?(filter[0].to_s)
+	accounts.delete_if { |key, value| key != filter[0].to_s }
+	# accounts = accounts[ARGV[0].to_s]
 end
 
 # CREATES ASCII DISPLAY
 
-if ARGV[1].to_s == '' and ARGV[0] != "html" and ARGV[0] != "csv" or ARGV[1] == "ascii"
+if filter[1].to_s == '' and filter[0] != "html" and filter[0] != "csv" or filter[1] == "ascii"
 	accounts.each do |name, balance|
 		puts "\n"
 		puts "==============================================================="
@@ -68,7 +69,7 @@ end
 
 # CREATES HTML DISPLAY
 
-if ARGV[0] == "html" or ARGV[1].to_s == "html"
+if filter[0] == "html" or filter[1].to_s == "html"
 	accounts.each do |name, balance|
 		puts "\n"
 		puts "<h1>#{name}</h1>"
@@ -85,14 +86,16 @@ if ARGV[0] == "html" or ARGV[1].to_s == "html"
 			puts "		<td>#{category}</td>"
 			puts "		<td>\$#{t[:tally].round(2).to_s}</td>"
 			puts "		<td>\$#{t[:avg_transaction].round(2).to_s}</td>"
+			puts "	</tr>"
 		end
+		puts "</table>"
 		puts "\n"
 	end
 end
 
 # CREATES CSV DISPLAY
 
-if ARGV[0] == "csv" or ARGV[1].to_s == "csv"
+if filter[0] == "csv" or filter[1].to_s == "csv"
 	accounts.each do |name, balance|
 		puts "\n"
 		puts "Category,Amount,Averge Transaction"
