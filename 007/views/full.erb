@@ -1,6 +1,6 @@
 <br>
-<h1><%= @name1 %></h1> 
-  <p>$<%= @balance1 %></p>
+<h1><%= @name %></h1> 
+  <p>$<%= @balance %></p>
   <hr>
   <table>
     <tr>
@@ -8,7 +8,7 @@
       <th>Amount</th>
       <th>Average Transaction</th>
     </tr>
-<% @sonia.categories.each do |category, t| %>
+<% @vars[i].categories.each do |category, t| %>
     <tr>
       <td><%= category %></td>
       <td>$<%= t.pretty_tally %></td>
@@ -17,7 +17,8 @@
   <% end %>
   </table>
 <br>
-<br>
+
+<!-- <br>
 <h1><%= @name2 %></h1> 
   <p>$<%= @balance2 %></p>
   <hr>
@@ -35,6 +36,6 @@
     </tr>
   <% end %>
   </table>
-<br>
+<br> -->
 
 <a href="http://localhost:4567/">Home</a>
