@@ -2,7 +2,7 @@ var prompt = require('prompt');
 var p1score = 0;
 var p2score = 0;
 
-// prompt.start(); <-- NOT NECESSARY?
+prompt.start();
 
 // BEGINS SERIES
 begin();
