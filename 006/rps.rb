@@ -1,12 +1,12 @@
 require 'pry'
 
-p1score = 0
-p2socre = 0
+$p1score = 0
+$p2score = 0
 
 # BEGINS SERIES, GETS FIRST WEAPON
-def begin()
-	puts "Let's play! Player 1, choose a weapon."
-	initp1
+def game()
+	puts "Let's play! Player 1, choose a weapon. Press ctrl+C to cancel."
+	initp1()
 end
 
 # CHECKS VALIDITY OF FIRST WEAPON. IF VALID, GETS SECOND WEAPON
@@ -14,10 +14,11 @@ def initp1()
 	p1weapon = gets.chomp.downcase
 	realweap = checkweap(p1weapon)
 	if realweap == true
-		initp2
+		puts "Player 2, choose a weapon."
+		initp2(p1weapon)
 	else
 		puts "That's not a valid weapon. Please choose 'rock', 'paper', or 'scissors'."
-		begin()
+		game()
 	end
 end
 
@@ -65,36 +66,39 @@ def winner(p1weapon, p2weapon)
 end
 
 # UPDATES SCORES
-def update()
+def update(result)
 	if (result == "Player 1 won!")
-		p1score += 1
+		$p1score = $p1score + 1
 		scorekeep()
-		return p1score
+		return $p1score
 	end
 	if (result == "Player 2 won!")
-		p2score += 1
+		$p2score = $p2score + 1
 		scorekeep()
-		return p2score
+		return $p2score
+	end
+	if (result == "Tie!")
+		scorekeep()
 	end
 end
 
 # CHECKS IF EITHER PLAYER HAS WON THE SERIES
 def scorekeep()
-	if (p1score >= 3)
+	if ($p1score >= 3)
 		puts "Player 1 has won the game!"
-		p1score = 0
-		p2score = 0
+		$p1score = 0
+		$p2score = 0
 	end
-	if (p2score >= 3)
+	if ($p2score >= 3)
 		puts "Player 2 has won the game!"
-		p1score = 0
-		p2score = 0
+		$p1score = 0
+		$p2score = 0
 	end
-	if (p1score + p2score < 5)
-		puts "Player 1 has #{p1score} points and player 2 has #{p2score} points."
-		begin()
+	if ($p1score + $p2score < 5)
+		puts "Player 1 has #{$p1score} points and player 2 has #{$p2score} points."
+		game()
 	end
 end
 
 # STARTS THE SERIES
-begin()
+game()
