@@ -11,20 +11,31 @@ def display(name)
 
 end
 
-get ("/"){
+def write_info(new_info)
+	info = File.open("/Users/aasteward/Code/drills/007/accounts.csv", "a")
+	info.puts new_info
+	info.close
+end
+
+# LOGIN PAGE TO BE ADDED SOON
+# get ("/"){
+# 	erb :login
+# }
+
+post("/submit") {
+	new_info = params["data"]
+	write_info(new_info)
+	redirect("/report?name=xxxx")
+}
+
+get("/index") {
 	erb :index
 }
 
-get("/sonia") {
-	@name = "Sonia"
+get("/report") {
+	@name = params["name"]
 	@account = display(@name)
-	erb :sonia
-}
-
-get("/priya") {
-	@name = "Priya"
-	@account = display(@name)
-	erb :priya
+	erb :report
 }
 
 get("/full") {
