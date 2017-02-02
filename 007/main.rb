@@ -23,9 +23,12 @@ end
 # }
 
 post("/submit") {
-	new_info = params["data"]
+	info_array = []
+	info_array.push(params["account"],params["date"],params["payee"],params["category"],params["outflow"],params["inflow"])
+	new_info = "\n" + info_array.join(",")
+	account = params["account"]
 	write_info(new_info)
-	redirect("/report?name=xxxx")
+	redirect("/report?name=#{account}")
 }
 
 get("/index") {

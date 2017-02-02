@@ -3,6 +3,7 @@
   <p>$<%= @account.pretty_tally %></p>
   <p></p>
   <form action="/submit" method="post">
+    <input type="hidden" name="account" value="<%= @name %>">
     <p><input type="text" placeholder="date" name="date"></p>
     <p><input type="text" placeholder="payee" name="payee"></p>
     <p><input type="text" placeholder="category" name="category"></p>
