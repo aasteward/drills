@@ -3,7 +3,6 @@ require_relative './functions.rb'
 require "pry"
 require "csv"
 enable :sessions
-# session[:administrator] = false
 
 def display(name)
 	account = AccountInfo.new
@@ -19,6 +18,7 @@ def write_info(new_info)
 	info.close
 end
 
+# HASH OF VALID LOGINS AND PASSWORDS
 logins = {"administrator" => "drowssap", "aasteward" => "builder"}
 
 get("/"){
@@ -31,7 +31,6 @@ get("/"){
 
 post("/login"){
 	if (logins.has_key?(params["user"]) == true) and (logins[params["user"]] == params["pass"])
-	# if (params["user"] == "administrator") and (params["pass"] == "drowssap")
 		session[:message] = "true"
 		redirect("/admin")
 	else
