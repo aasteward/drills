@@ -2,6 +2,8 @@ require "sinatra"
 require_relative './functions.rb'
 require "pry"
 require "csv"
+enable :sessions
+# session[:administrator] = false
 
 def display(name)
 	account = AccountInfo.new
@@ -17,10 +19,47 @@ def write_info(new_info)
 	info.close
 end
 
-# LOGIN PAGE TO BE ADDED SOON
-# get ("/"){
-# 	erb :login
-# }
+logins = {"administrator" => "drowssap", "aasteward" => "builder"}
+
+get("/"){
+	if session[:message] == "true"
+		redirect("/admin")
+	else
+		erb :login
+	end
+}
+
+post("/login"){
+	if (logins.has_key?(params["user"]) == true) and (logins[params["user"]] == params["pass"])
+	# if (params["user"] == "administrator") and (params["pass"] == "drowssap")
+		session[:message] = "true"
+		redirect("/admin")
+	else
+		session[:message] = "false"
+		redirect("/login_error")
+	end
+}
+
+post("/logout"){
+	session[:message] = "false"
+	redirect("/")
+}
+
+get("/admin"){
+	if session[:message] == "true"
+		erb :admin
+	else
+		redirect("/login_error")
+	end
+}
+
+get("/login_error"){
+	if session[:message] == "false"
+		erb :login_error
+	else
+		redirect("/admin")
+	end
+}
 
 post("/submit") {
 	info_array = []
