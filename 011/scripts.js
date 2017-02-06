@@ -12,16 +12,21 @@ window.addEventListener("load", function(){
 		// WHEN 'LIKE' CLICKED, HIDES 'LIKE' ANCHOR, INCREMENTS SIBLING 'LIKE_COUNT' SPAN, AND REVEALS SIBLING 'UNLIKE' ANCHOR.
 		this.style.display = "none";
 		this.nextElementSibling.style.display = "block";
-		var count = this.parentElement.getElementsByClassName('like_count');
+		var count = this.parentElement.getElementsByClassName('like_count')[0].innerText;
+		countarr = count.split(" ");
+		countarr[0] = parseInt(countarr[0]) + 1;
+		count = countarr.join(" ");
+		this.parentElement.getElementsByClassName('like_count')[0].innerText = count;
 	}
 
 	function unlike(){
 		// WHEN 'UNLIKE' CLICKED, HIDES 'UNLIKE' ANCHOR, DECREMENTS SIBLING 'LIKE_COUNT' SPAN, AND REVEALS SIBLING 'LIKE' ANCHOR.
 		this.style.display = "none";
 		this.previousElementSibling.style.display = "block";
-		var count = this.parentElement.getElementsByClassName('like_count');
-		count.split(" ");
-		count[0].to_a -= 1;
-		count.join(" ");
+		var count = this.parentElement.getElementsByClassName('like_count')[0].innerText;
+		countarr = count.split(" ");
+		countarr[0] = parseInt(countarr[0]) - 1;
+		count = countarr.join(" ");
+		this.parentElement.getElementsByClassName('like_count')[0].innerText = count;
 	}
 });
