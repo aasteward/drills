@@ -22,9 +22,8 @@ window.addEventListener("load", function(){
 	function personData(person){
 		var newDiv = document.createElement("div");
 		var info = newDiv.innerHTML;
-		info = "First Name: " + person.fname + "<br>" + "Last Name: " + person.lname + "<br>" + "Phone: " + person.tel + "<br>" + "Address: " + person.address + "<br>" + "City: " + person.city + "<br>" + "State: " + person.state + "<br>" + "ZIP: " + person.zip + "<br><br>";
+		info = "<p>First Name: " + person.fname + "<br>" + "Last Name: " + person.lname + "<br>" + "Phone: " + person.tel + "<br>" + "Address: " + person.address + "<br>" + "City: " + person.city + "<br>" + "State: " + person.state + "<br>" + "ZIP: " + person.zip + "</p>";
 		newDiv.innerHTML = info;
 		document.getElementsByTagName("body")[0].appendChild(newDiv);
 	}
-
 });
