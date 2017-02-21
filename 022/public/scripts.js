@@ -2,23 +2,24 @@ window.addEventListener("load", function(){
 	document.getElementsByTagName("input")[1].addEventListener("click", search);
 });
 
+var movies = [];
 function search(e){
-	var movies = [];
+var query = document.getElementsByTagName("input")[0].value;
 	var xhr = new XMLHttpRequest();
-	xhr.open("GET", "/results");
+	xhr.open("GET", "/results?query=" + query);
 	xhr.onload = function(){
+		document.getElementsByTagName("body")[0] = "";
 		movies = xhr.responseText;
 		movies = JSON.parse(movies);
 		buildList(movies);
-	};
-	debugger;
+	}
 	xhr.send();
 	e.preventDefault();
 }
 
 function buildList(movies){
-	for (i = 0; i < movies.length; i++){
-		var movie = movies[i];
+	for (i = 0; i < movies["Search"].length; i++){
+		var movie = movies["Search"][i];
 		display(movie);
 	}
 }
@@ -26,7 +27,7 @@ function buildList(movies){
 function display(movie){
 	var newDiv = document.createElement("div");
 	var info = newDiv.innerHTML;
-	info = "<p>Title: " + movie.Title + "<br>Year: " + movie.Year + "<br>ID: " + movie.imdbID + "<br>Type: " + movie.Type + "<br>Poster: " + movie.poster + "<br>"
+	info = "<p>Title: " + movie.Title + "<br>Year: " + movie.Year + "<br>ID: <a href='http://imdb.com/title/" + movie.imdbID + "/'>" + movie.imdbID + "</a><br>Type: " + movie.Type + "<br>Poster:<br><img src=" + movie.Poster + "></p>"
 	newDiv.innerHTML = info;
-	document.getelementsByTagName("body")[0].appendChild(newDiv);
+	document.getElementsByTagName("body")[0].appendChild(newDiv);
 }
